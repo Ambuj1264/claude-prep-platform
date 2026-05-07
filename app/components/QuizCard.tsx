@@ -28,7 +28,7 @@ export function QuizCard({ onDone }: { onDone: () => void }) {
 
   function getOptionClass(letter: 'A' | 'B' | 'C' | 'D') {
     if (!answered) return 'option-btn';
-    if (letter === currentQ.correctAnswer) return 'option-btn reveal-correct';
+    if (letter === currentQ?.correctAnswer) return 'option-btn reveal-correct';
     if (letter === currentAnswer?.selectedAnswer && !currentAnswer.isCorrect) return 'option-btn selected-wrong';
     return 'option-btn';
   }

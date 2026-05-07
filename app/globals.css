@@ -1,0 +1,317 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Modern SaaS Design System Tokens ─── */
+:root {
+  --bg-deep: #F0EFEA;
+  --bg-base: #F9F8F6;
+  --bg-elevated: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #FDFDFD;
+
+  /* Brand / Claude Terra Cotta */
+  --color-primary: #D97757;
+  --color-primary-glow: rgba(217, 119, 87, 0.15);
+  --color-secondary: #B85A3D;
+  --color-accent: #E58C6D;
+  --color-accent-glow: rgba(229, 140, 109, 0.1);
+
+  /* Domain colors */
+  --domain-1: #D97757;
+  --domain-2: #4A6C6F;
+  --domain-3: #5C7A61;
+  --domain-4: #D4A373;
+  --domain-5: #8A5A44;
+
+  /* Text */
+  --text-primary: #1A1A1A;
+  --text-secondary: #4A4A4A;
+  --text-muted: #808080;
+  --text-accent: #D97757;
+
+  /* Surfaces */
+  --surface-border: rgba(0,0,0,0.08);
+  --surface-border-hover: rgba(0,0,0,0.15);
+
+  /* Semantic */
+  --color-correct: #3B82F6;
+  --color-correct-glow: rgba(59,130,246,0.1);
+  --color-wrong: #EF4444;
+  --color-wrong-glow: rgba(239,68,68,0.1);
+
+  /* Easing */
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out: cubic-bezier(0.0, 0, 0.2, 1);
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+}
+
+/* ─── Base ─── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.25); }
+
+.bg-blobs { display: none; }
+
+/* ─── Cards ─── */
+.glass-card {
+  background: var(--bg-card);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  transition: transform 0.2s var(--ease-spring), background-color 0.2s var(--ease-spring), border-color 0.2s var(--ease-spring), box-shadow 0.2s var(--ease-spring);
+}
+.glass-card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--surface-border-hover);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+/* ─── Buttons ─── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s var(--ease-spring), background-color 0.15s var(--ease-spring);
+}
+.btn-primary:hover {
+  background: var(--color-secondary);
+  transform: translateY(-1px);
+}
+.btn-primary:active { transform: translateY(0); }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--surface-border);
+  cursor: pointer;
+  transition: color 0.15s var(--ease-spring), background-color 0.15s var(--ease-spring), border-color 0.15s var(--ease-spring);
+}
+.btn-ghost:hover {
+  background: rgba(0,0,0,0.03);
+  border-color: var(--surface-border-hover);
+  color: var(--text-primary);
+}
+
+/* ─── Option Buttons ─── */
+.option-btn {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 18px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color 0.15s var(--ease-spring), border-color 0.15s var(--ease-spring), box-shadow 0.15s var(--ease-spring);
+  text-align: left;
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+.option-btn:hover:not(:disabled) {
+  border-color: var(--color-primary);
+  background: var(--bg-card-hover);
+}
+.option-btn:disabled { cursor: default; }
+.option-btn.selected-correct {
+  border-color: var(--color-correct);
+  background: var(--color-correct-glow);
+  box-shadow: 0 0 0 1px var(--color-correct);
+}
+.option-btn.selected-wrong {
+  border-color: var(--color-wrong);
+  background: var(--color-wrong-glow);
+  box-shadow: 0 0 0 1px var(--color-wrong);
+}
+.option-btn.reveal-correct {
+  border-color: var(--color-correct);
+  background: var(--color-correct-glow);
+}
+
+.option-letter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  border-radius: 6px;
+  background: rgba(0,0,0,0.05);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  transition: color 0.15s, background-color 0.15s, border-color 0.15s;
+}
+.selected-correct .option-letter { background: var(--color-correct); color: white; border-color: var(--color-correct); }
+.selected-wrong .option-letter { background: var(--color-wrong); color: white; border-color: var(--color-wrong); }
+.reveal-correct .option-letter { background: var(--color-correct); color: white; }
+
+/* ─── Progress Bar ─── */
+.progress-bar {
+  height: 4px;
+  background: rgba(0,0,0,0.06);
+  border-radius: 9999px;
+  overflow: hidden;
+  /* Use transform for performance */
+  will-change: transform;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: 9999px;
+  transition: width 0.4s var(--ease-spring);
+  transform-origin: left;
+}
+
+/* ─── Explanation Card ─── */
+.explanation-card {
+  border-radius: var(--radius-md);
+  padding: 20px;
+  margin-top: 20px;
+  animation: slide-up 0.3s var(--ease-spring);
+}
+.explanation-correct {
+  background: var(--color-correct-glow);
+  border: 1px solid rgba(59,130,246,0.3);
+}
+.explanation-wrong {
+  background: var(--color-wrong-glow);
+  border: 1px solid rgba(239,68,68,0.3);
+}
+
+/* ─── Collapsible ─── */
+.collapsible-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 16px 20px;
+  border-radius: var(--radius-md);
+  transition: background-color 0.15s;
+  user-select: none;
+}
+.collapsible-header:hover { background: rgba(0,0,0,0.02); }
+.collapsible-content { overflow: hidden; }
+
+/* ─── Pattern Pills ─── */
+.pattern-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  background: rgba(0,0,0,0.05);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* ─── Stats Card ─── */
+.stat-card {
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--surface-border);
+  text-align: center;
+}
+
+/* ─── Sidebar Nav ─── */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background-color 0.15s var(--ease-spring), color 0.15s var(--ease-spring);
+  text-decoration: none;
+}
+.nav-item:hover {
+  background: rgba(0,0,0,0.04);
+  color: var(--text-primary);
+}
+.nav-item.active {
+  background: var(--color-primary-glow);
+  color: var(--color-primary);
+  border: 1px solid rgba(217,119,87,0.3);
+}
+
+/* ─── Animations ─── */
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-slide-up { animation: slide-up 0.35s var(--ease-spring); }
+.animate-fade-in { animation: fade-in 0.25s var(--ease-out); }
+.animate-scale-in { animation: scale-in 0.3s var(--ease-spring); }
+
+/* ─── Focus ─── */
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ─── Responsive helpers ─── */
+@layer utilities {
+  .page-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+  @media (min-width: 768px) {
+    .page-container { padding: 0 32px; }
+  }
+}

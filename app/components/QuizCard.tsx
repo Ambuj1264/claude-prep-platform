@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useQuiz } from './QuizProvider';
 import { CheckCircle, XCircle, ChevronRight, AlertCircle } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 import { domains } from '../lib/data';
 
 export function QuizCard({ onDone }: { onDone: () => void }) {
@@ -63,16 +64,16 @@ export function QuizCard({ onDone }: { onDone: () => void }) {
 
       {/* Question card */}
       <div className="glass-card" style={{ padding: '28px 32px', marginBottom: 20 }}>
-        <div style={{
+        <div className="react-markdown" style={{
           marginBottom: 8,
           fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.06em',
           textTransform: 'uppercase', color: 'var(--text-muted)',
         }}>
-          Scenario: {currentQ.scenario}
+          Scenario: <ReactMarkdown components={{p: 'span'}}>{currentQ.scenario}</ReactMarkdown>
         </div>
-        <p style={{ fontSize: '1rem', lineHeight: 1.7, fontWeight: 400 }}>
-          {currentQ.question}
-        </p>
+        <div className="react-markdown" style={{ fontSize: '1rem', lineHeight: 1.7, fontWeight: 400 }}>
+          <ReactMarkdown>{currentQ.question}</ReactMarkdown>
+        </div>
       </div>
 
       {/* Options */}
@@ -86,7 +87,9 @@ export function QuizCard({ onDone }: { onDone: () => void }) {
             id={`option-${opt.letter}`}
           >
             <span className="option-letter">{opt.letter}</span>
-            <span style={{ flex: 1 }}>{opt.text}</span>
+            <div className="react-markdown" style={{ flex: 1 }}>
+              <ReactMarkdown>{opt.text}</ReactMarkdown>
+            </div>
             {answered && opt.letter === currentQ.correctAnswer && (
               <CheckCircle size={18} style={{ color: 'var(--color-correct)', flexShrink: 0 }} />
             )}
@@ -112,9 +115,9 @@ export function QuizCard({ onDone }: { onDone: () => void }) {
               <div style={{ fontWeight: 700, marginBottom: 6, fontSize: '0.9375rem' }}>
                 {currentAnswer?.isCorrect ? '✓ Correct!' : `✗ Correct answer: ${currentQ.correctAnswer}`}
               </div>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.65 }}>
-                {currentQ.explanation}
-              </p>
+              <div className="react-markdown" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.65 }}>
+                <ReactMarkdown>{currentQ.explanation}</ReactMarkdown>
+              </div>
             </div>
           </div>
 
@@ -132,7 +135,9 @@ export function QuizCard({ onDone }: { onDone: () => void }) {
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-wrong)', flexShrink: 0,
                     }}>{w.letter}</span>
-                    <span style={{ color: 'var(--text-secondary)', lineHeight: 1.55 }}>{w.reason}</span>
+                    <div className="react-markdown" style={{ color: 'var(--text-secondary)', lineHeight: 1.55 }}>
+                      <ReactMarkdown>{w.reason}</ReactMarkdown>
+                    </div>
                   </div>
                 ))}
               </div>

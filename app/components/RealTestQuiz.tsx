@@ -2,6 +2,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { ScreenshotProtect } from './ScreenshotProtect';
 import {
   CheckCircle, XCircle, ChevronRight, ChevronLeft,
   RotateCcw, Trophy, Loader2, Lock, ArrowRight,
@@ -151,6 +152,7 @@ export function RealTestQuiz() {
     });
 
     return (
+      <ScreenshotProtect>
       <div className="animate-fade-in">
         {/* Score hero */}
         <div className="glass-card" style={{ padding: '40px', textAlign: 'center', marginBottom: 24 }}>
@@ -215,6 +217,7 @@ export function RealTestQuiz() {
           </button>
         </div>
       </div>
+      </ScreenshotProtect>
     );
   }
 
@@ -223,6 +226,7 @@ export function RealTestQuiz() {
     const q = questions[reviewIndex];
     const userAns = answers[q.id];
     return (
+      <ScreenshotProtect>
       <div className="animate-fade-in">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
           <button className="btn-ghost" onClick={() => setReviewMode(false)} style={{ fontSize: '0.8125rem' }}>
@@ -253,6 +257,7 @@ export function RealTestQuiz() {
           )}
         </div>
       </div>
+      </ScreenshotProtect>
     );
   }
 
@@ -263,6 +268,7 @@ export function RealTestQuiz() {
   const domainColor = DOMAIN_COLORS[domain] ?? 'var(--color-primary)';
 
   return (
+    <ScreenshotProtect>
     <div className="animate-fade-in">
       {/* Header bar */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, flexWrap: 'wrap', gap: 8 }}>
@@ -314,6 +320,7 @@ export function RealTestQuiz() {
         </span>
       </div>
     </div>
+    </ScreenshotProtect>
   );
 }
 

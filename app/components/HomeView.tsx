@@ -1,6 +1,6 @@
 'use client';
 import { domains, allQuestions } from '../lib/data';
-import { BookOpen, Layers, Brain, Zap, FileText } from 'lucide-react';
+import { BookOpen, Layers, Brain, Zap, FileText, Lock, Star } from 'lucide-react';
 
 interface Props {
   onStartQuiz: () => void;
@@ -31,33 +31,72 @@ export function HomeView({ onStartQuiz, onOpenNotes, onRealTestQuestions }: Prop
           Master the Exam.<br />Pass with Confidence.
         </h1>
 
-        <p style={{ color: 'var(--text-secondary)', fontSize: '1.0625rem', maxWidth: 520, margin: '0 auto 32px', lineHeight: 1.65 }}>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '1.0625rem', maxWidth: 520, margin: '0 auto 28px', lineHeight: 1.65 }}>
           Scenario-based questions across all 5 domains with detailed explanations, pattern analysis, and premium study notes.
         </p>
 
-        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-          <button className="btn-primary" onClick={onStartQuiz} id="btn-start-quiz" style={{ padding: '12px 28px', fontSize: '1rem' }}>
-            <Brain size={18} /> Start Practice
-          </button>
-          <button className="btn-ghost" onClick={onOpenNotes} id="btn-open-notes" style={{ padding: '12px 24px', fontSize: '1rem' }}>
-            <BookOpen size={18} /> Premium Notes
-          </button>
+        {/* Real Test Questions — hero CTA */}
+        <div style={{ margin: '0 auto 32px', maxWidth: 560 }}>
           <button
             onClick={onRealTestQuestions}
             id="btn-real-test"
             style={{
-              padding: '12px 24px', fontSize: '1rem',
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              borderRadius: 9999, fontWeight: 700, cursor: 'pointer',
-              background: 'linear-gradient(135deg, #d97757, #c2643d)',
+              width: '100%', padding: '20px 32px',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14,
+              borderRadius: 16, fontWeight: 800, cursor: 'pointer', fontSize: '1.2rem',
+              background: 'linear-gradient(135deg, #d97757 0%, #c2643d 100%)',
               color: 'white', border: 'none',
-              boxShadow: '0 4px 16px rgba(217,119,87,0.4)',
+              boxShadow: '0 8px 32px rgba(217,119,87,0.45)',
               transition: 'transform 0.15s, box-shadow 0.15s',
+              letterSpacing: '-0.01em',
             }}
-            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-1px)'; (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 6px 20px rgba(217,119,87,0.5)'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = ''; (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 4px 16px rgba(217,119,87,0.4)'; }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-2px)';
+              (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 12px 40px rgba(217,119,87,0.55)';
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLButtonElement).style.transform = '';
+              (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 8px 32px rgba(217,119,87,0.45)';
+            }}
           >
-            <FileText size={18} /> Real Test Questions
+            <FileText size={24} />
+            <span>Real Test Questions</span>
+            <span style={{
+              padding: '3px 10px', borderRadius: 9999,
+              background: 'rgba(255,255,255,0.25)', fontSize: '0.75rem',
+              fontWeight: 700, letterSpacing: '0.02em',
+            }}>
+              PREMIUM
+            </span>
+          </button>
+
+          {/* Trust row */}
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            gap: 16, marginTop: 10, flexWrap: 'wrap',
+          }}>
+            {[
+              { icon: <Lock size={11} />, label: 'Login required' },
+              { icon: <Star size={11} />, label: '60 real exam questions' },
+              { icon: <FileText size={11} />, label: 'Detailed explanations' },
+            ].map(({ icon, label }) => (
+              <span key={label} style={{
+                display: 'inline-flex', alignItems: 'center', gap: 5,
+                fontSize: '0.75rem', color: 'var(--text-muted)',
+              }}>
+                {icon} {label}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Secondary actions */}
+        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <button className="btn-primary" onClick={onStartQuiz} id="btn-start-quiz" style={{ padding: '11px 24px', fontSize: '0.9375rem' }}>
+            <Brain size={17} /> Start Practice
+          </button>
+          <button className="btn-ghost" onClick={onOpenNotes} id="btn-open-notes" style={{ padding: '11px 20px', fontSize: '0.9375rem' }}>
+            <BookOpen size={17} /> Premium Notes
           </button>
         </div>
       </div>

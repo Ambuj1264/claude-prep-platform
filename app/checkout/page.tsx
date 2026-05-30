@@ -46,10 +46,10 @@ export default function CheckoutPage() {
   const [couponStatus, setCouponStatus] = useState<'idle' | 'valid' | 'invalid'>('idle');
   const [discountedPrice, setDiscountedPrice] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
-  const [currencyInfo, setCurrencyInfo] = useState(CURRENCIES.DEFAULT);
-  const [countryCode, setCountryCode] = useState('DEFAULT');
+  const [currencyInfo] = useState({ symbol: '₹', rate: 1 });
+  const [countryCode] = useState('IN');
 
-  const originalPrice = 60;
+  const originalPrice = 1;
   const finalPrice = discountedPrice ?? originalPrice;
 
   useEffect(() => {

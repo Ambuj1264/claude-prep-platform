@@ -1,8 +1,7 @@
 'use client';
 import { signOut } from 'next-auth/react';
-import { Brain, CheckCircle, Clock, Tag, ArrowRight, LogOut } from 'lucide-react';
+import { Brain, CheckCircle, Clock, Tag, ArrowRight, LogOut, User } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
 
 interface Transaction {
   id: string;
@@ -22,6 +21,10 @@ interface Props {
 }
 
 export function DashboardClient({ user, transactions }: Props) {
+  function handleSignOut() {
+    signOut({ callbackUrl: window.location.origin + '/' });
+  }
+
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-base)', padding: '0 0 64px' }}>
       {/* Header */}
@@ -38,7 +41,7 @@ export function DashboardClient({ user, transactions }: Props) {
           </Link>
           <button
             className="btn-ghost"
-            onClick={() => signOut({ callbackUrl: '/' })}
+            onClick={handleSignOut}
             style={{ fontSize: '0.8125rem' }}
           >
             <LogOut size={14} /> Sign out
@@ -49,9 +52,14 @@ export function DashboardClient({ user, transactions }: Props) {
       <main className="page-container" style={{ paddingTop: 32 }}>
         {/* Profile */}
         <div className="glass-card" style={{ padding: '28px', marginBottom: 24, display: 'flex', alignItems: 'center', gap: 20 }}>
-          {user.image && (
-            <Image src={user.image} alt={user.name} width={64} height={64} style={{ borderRadius: '50%' }} />
-          )}
+          {/* User icon instead of image */}
+          <div style={{
+            width: 56, height: 56, borderRadius: '50%', flexShrink: 0,
+            background: 'var(--color-primary)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <User size={26} color="white" />
+          </div>
           <div style={{ flex: 1 }}>
             <div style={{ fontWeight: 700, fontSize: '1.125rem' }}>{user.name}</div>
             <div style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>{user.email}</div>
@@ -87,7 +95,7 @@ export function DashboardClient({ user, transactions }: Props) {
             </Link>
           </div>
         ) : (
-          <div className="glass-card" style={{ padding: '28px', marginBottom: 24, borderColor: 'rgba(217,119,87,0.2)' }}>
+          <div className="glass-card" style={{ padding: '28px', marginBottom: 24 }}>
             <h2 style={{ fontWeight: 700, marginBottom: 12, fontSize: '1.125rem' }}>Unlock Real Test Questions</h2>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: 20 }}>
               Get access to real exam questions and pass the Claude Certified Architect exam.

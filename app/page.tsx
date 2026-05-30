@@ -128,14 +128,14 @@ function App() {
                     </div>
                     <button
                       className="btn-ghost"
-                      onClick={() => { router.push('/dashboard'); setUserMenuOpen(false); }}
+                      onClick={() => { setUserMenuOpen(false); window.location.href = '/dashboard'; }}
                       style={{ width: '100%', justifyContent: 'flex-start', fontSize: '0.8125rem', borderRadius: 6 }}
                     >
                       <LayoutDashboard size={14} /> Dashboard
                     </button>
                     <button
                       className="btn-ghost"
-                      onClick={() => { signOut({ callbackUrl: '/' }); setUserMenuOpen(false); }}
+                      onClick={() => { setUserMenuOpen(false); signOut({ callbackUrl: window.location.origin + '/' }); }}
                       style={{ width: '100%', justifyContent: 'flex-start', fontSize: '0.8125rem', borderRadius: 6 }}
                     >
                       <LogOut size={14} /> Sign out

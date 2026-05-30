@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { signIn } from 'next-auth/react';
 import { Brain, X, Shield, Star, FileText, Loader2 } from 'lucide-react';
@@ -13,144 +13,142 @@ export function AuthModal({ onClose, reason = 'general' }: Props) {
   const [loading, setLoading] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    setMounted(true);
+    const handleKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [onClose]);
 
-  async function handleGoogleSignIn() {
+  const handleGoogleSignIn = useCallback(async () => {
     setLoading(true);
     await signIn('google', { callbackUrl: window.location.href });
-  }
+  }, []);
 
   if (!mounted) return null;
 
   const modal = (
-    <>
+    <div
+      style={{
+        position: 'fixed', inset: 0, zIndex: 9999,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: '20px',
+        background: 'rgba(30,30,30,0.55)',
+        backdropFilter: 'blur(6px)',
+        WebkitBackdropFilter: 'blur(6px)',
+      }}
+      onMouseDown={onClose}
+    >
       <div
-        onClick={onClose}
+        onMouseDown={e => e.stopPropagation()}
         style={{
-          position: 'fixed', inset: 0, zIndex: 9000,
-          background: 'rgba(30,30,30,0.55)',
-          backdropFilter: 'blur(6px)',
-          WebkitBackdropFilter: 'blur(6px)',
-        }}
-      />
-
-      <div
-        onClick={onClose}
-        style={{
-          position: 'fixed', inset: 0, zIndex: 9001,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          padding: '20px',
+          background: '#FFFFFF',
+          border: '1px solid var(--surface-border)',
+          borderRadius: 24,
+          padding: '40px 36px',
+          width: '100%', maxWidth: 420,
+          boxShadow: '0 8px 40px rgba(0,0,0,0.18)',
+          position: 'relative',
+          animation: 'modalIn 0.2s ease',
         }}
       >
-        <div
-          onClick={e => e.stopPropagation()}
+        <style>{`
+          @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.95) translateY(8px); }
+            to   { opacity: 1; transform: scale(1)    translateY(0);   }
+          }
+        `}</style>
+
+        <button
+          type="button"
+          onMouseDown={e => { e.stopPropagation(); onClose(); }}
           style={{
-            background: '#FFFFFF',
-            border: '1px solid var(--surface-border)',
-            borderRadius: 24,
-            padding: '40px 36px',
-            width: '100%', maxWidth: 420,
-            boxShadow: '0 8px 40px rgba(0,0,0,0.12)',
-            position: 'relative',
-            animation: 'modalIn 0.2s ease',
+            position: 'absolute', top: 16, right: 16,
+            background: '#f9f8f6', border: '1px solid var(--surface-border)',
+            borderRadius: '50%', width: 32, height: 32,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            cursor: 'pointer', color: 'var(--text-muted)',
           }}
         >
-          <style>{`
-            @keyframes modalIn {
-              from { opacity: 0; transform: scale(0.95) translateY(8px); }
-              to   { opacity: 1; transform: scale(1)    translateY(0);   }
-            }
-          `}</style>
+          <X size={15} />
+        </button>
 
-          <button
-            onClick={onClose}
-            style={{
-              position: 'absolute', top: 16, right: 16,
-              background: '#f9f8f6', border: '1px solid var(--surface-border)',
-              borderRadius: '50%', width: 32, height: 32,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', color: 'var(--text-muted)',
-            }}
-          >
-            <X size={15} />
-          </button>
-
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 24 }}>
-            <div style={{
-              width: 56, height: 56, borderRadius: 14,
-              background: 'var(--color-primary)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: '0 8px 24px rgba(217,119,87,0.35)',
-            }}>
-              <Brain size={28} color="white" />
-            </div>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 24 }}>
+          <div style={{
+            width: 56, height: 56, borderRadius: 14,
+            background: 'var(--color-primary)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: '0 8px 24px rgba(217,119,87,0.35)',
+          }}>
+            <Brain size={28} color="white" />
           </div>
-
-          <h2 style={{ textAlign: 'center', fontSize: '1.375rem', fontWeight: 800, marginBottom: 8, color: 'var(--text-primary)' }}>
-            {reason === 'realtest' ? 'Unlock Real Test Questions' : 'Sign in to Claude Architect'}
-          </h2>
-          <p style={{ textAlign: 'center', color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.6, marginBottom: 28 }}>
-            {reason === 'realtest'
-              ? 'Sign in with Google to access 60 real exam questions with detailed explanations.'
-              : 'Sign in to track your progress, save results, and access premium content.'}
-          </p>
-
-          {reason === 'realtest' && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 28 }}>
-              {[
-                { icon: <FileText size={14} />, text: '60 real exam-style questions' },
-                { icon: <Star size={14} />, text: 'Detailed answer explanations' },
-                { icon: <Shield size={14} />, text: 'Secure · No spam · Cancel anytime' },
-              ].map(({ icon, text }) => (
-                <div key={text} style={{
-                  display: 'flex', alignItems: 'center', gap: 10,
-                  padding: '10px 14px', borderRadius: 10,
-                  background: 'var(--bg-base)',
-                  border: '1px solid var(--surface-border)',
-                }}>
-                  <span style={{ color: 'var(--color-primary)', flexShrink: 0 }}>{icon}</span>
-                  <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{text}</span>
-                </div>
-              ))}
-            </div>
-          )}
-
-          <button
-            onClick={handleGoogleSignIn}
-            disabled={loading}
-            style={{
-              width: '100%', padding: '14px 20px',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12,
-              borderRadius: 12, fontWeight: 700, fontSize: '1rem', cursor: loading ? 'wait' : 'pointer',
-              background: 'var(--bg-base)',
-              color: 'var(--text-primary)',
-              border: '1.5px solid var(--surface-border)',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
-              transition: 'box-shadow 0.15s, transform 0.15s',
-            }}
-            onMouseEnter={e => {
-              (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 4px 16px rgba(0,0,0,0.1)';
-              (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-1px)';
-            }}
-            onMouseLeave={e => {
-              (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 2px 8px rgba(0,0,0,0.06)';
-              (e.currentTarget as HTMLButtonElement).style.transform = '';
-            }}
-          >
-            {loading ? (
-              <Loader2 size={20} style={{ animation: 'spin 1s linear infinite', color: 'var(--text-muted)' }} />
-            ) : (
-              <GoogleIcon />
-            )}
-            {loading ? 'Redirecting…' : 'Continue with Google'}
-          </button>
-
-          <p style={{ textAlign: 'center', fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 16, lineHeight: 1.5 }}>
-            By signing in you agree to our terms. We only use your Google account for authentication.
-          </p>
         </div>
+
+        <h2 style={{ textAlign: 'center', fontSize: '1.375rem', fontWeight: 800, marginBottom: 8, color: 'var(--text-primary)' }}>
+          {reason === 'realtest' ? 'Unlock Real Test Questions' : 'Sign in to Claude Architect'}
+        </h2>
+        <p style={{ textAlign: 'center', color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.6, marginBottom: 28 }}>
+          {reason === 'realtest'
+            ? 'Sign in with Google to access 60 real exam questions with detailed explanations.'
+            : 'Sign in to track your progress, save results, and access premium content.'}
+        </p>
+
+        {reason === 'realtest' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 28 }}>
+            {[
+              { icon: <FileText size={14} />, text: '60 real exam-style questions' },
+              { icon: <Star size={14} />, text: 'Detailed answer explanations' },
+              { icon: <Shield size={14} />, text: 'Secure · No spam · Cancel anytime' },
+            ].map(({ icon, text }) => (
+              <div key={text} style={{
+                display: 'flex', alignItems: 'center', gap: 10,
+                padding: '10px 14px', borderRadius: 10,
+                background: 'var(--bg-base)',
+                border: '1px solid var(--surface-border)',
+              }}>
+                <span style={{ color: 'var(--color-primary)', flexShrink: 0 }}>{icon}</span>
+                <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{text}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <button
+          type="button"
+          onClick={handleGoogleSignIn}
+          disabled={loading}
+          style={{
+            width: '100%', padding: '14px 20px',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12,
+            borderRadius: 12, fontWeight: 700, fontSize: '1rem', cursor: loading ? 'wait' : 'pointer',
+            background: 'var(--bg-base)',
+            color: 'var(--text-primary)',
+            border: '1.5px solid var(--surface-border)',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+            transition: 'box-shadow 0.15s, transform 0.15s',
+          }}
+          onMouseEnter={e => {
+            (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 4px 16px rgba(0,0,0,0.1)';
+            (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-1px)';
+          }}
+          onMouseLeave={e => {
+            (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 2px 8px rgba(0,0,0,0.06)';
+            (e.currentTarget as HTMLButtonElement).style.transform = '';
+          }}
+        >
+          {loading ? (
+            <Loader2 size={20} style={{ animation: 'spin 1s linear infinite', color: 'var(--text-muted)' }} />
+          ) : (
+            <GoogleIcon />
+          )}
+          {loading ? 'Redirecting…' : 'Continue with Google'}
+        </button>
+
+        <p style={{ textAlign: 'center', fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 16, lineHeight: 1.5 }}>
+          By signing in you agree to our terms. We only use your Google account for authentication.
+        </p>
       </div>
-    </>
+    </div>
   );
 
   return createPortal(modal, document.body);

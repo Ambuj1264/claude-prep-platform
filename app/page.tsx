@@ -224,7 +224,7 @@ function App() {
       {/* Close user menu on outside click */}
       {userMenuOpen && (
         <div
-          style={{ position: 'fixed', inset: 0, zIndex: 90 }}
+          style={{ position: 'fixed', inset: 0, zIndex: 40 }}
           onClick={() => setUserMenuOpen(false)}
         />
       )}

@@ -27,15 +27,24 @@ interface RazorpayInstance {
   open: () => void;
 }
 
-const CURRENCIES: Record<string, { symbol: string; rate: number }> = {
-  IN: { symbol: '₹', rate: 83.5 },
-  GB: { symbol: '£', rate: 0.79 },
-  EU: { symbol: '€', rate: 0.92 },
-  DEFAULT: { symbol: '$', rate: 1 },
-};
+// Base price in USD
+const BASE_USD = 60;
+const COUPON_USD = 50;
+// INR conversion rate
+const USD_TO_INR = 84;
 
-function getCurrencyInfo(countryCode: string) {
-  return CURRENCIES[countryCode] ?? CURRENCIES.DEFAULT;
+function detectIsIndia(): boolean {
+  try {
+    const locale = navigator.language || '';
+    const region = new Intl.Locale(locale).region ?? '';
+    if (region === 'IN') return true;
+  } catch {}
+  // fallback: check timezone
+  try {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (tz.startsWith('Asia/Kolkata') || tz.startsWith('Asia/Calcutta')) return true;
+  } catch {}
+  return false;
 }
 
 export default function CheckoutPage() {
@@ -44,13 +53,13 @@ export default function CheckoutPage() {
 
   const [coupon, setCoupon] = useState('');
   const [couponStatus, setCouponStatus] = useState<'idle' | 'valid' | 'invalid'>('idle');
-  const [discountedPrice, setDiscountedPrice] = useState<number | null>(null);
+  const [couponApplied, setCouponApplied] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [currencyInfo] = useState({ symbol: '₹', rate: 1 });
-  const [countryCode] = useState('IN');
+  const [isIndia, setIsIndia] = useState(false);
 
-  const originalPrice = 1;
-  const finalPrice = discountedPrice ?? originalPrice;
+  useEffect(() => {
+    setIsIndia(detectIsIndia());
+  }, []);
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -60,7 +69,6 @@ export default function CheckoutPage() {
     return () => { document.body.removeChild(script); };
   }, []);
 
-
   useEffect(() => {
     if (status === 'unauthenticated') signIn('google');
     if (status === 'authenticated') {
@@ -68,6 +76,16 @@ export default function CheckoutPage() {
       if (user?.hasPremiumAccess) router.replace('/dashboard');
     }
   }, [status, session, router]);
+
+  // Price logic
+  const usdPrice = couponApplied ? COUPON_USD : BASE_USD;
+  const displaySymbol = isIndia ? '₹' : '$';
+  const displayAmount = isIndia ? Math.round(usdPrice * USD_TO_INR) : usdPrice;
+  const displayOriginal = isIndia ? Math.round(BASE_USD * USD_TO_INR) : BASE_USD;
+
+  function formatPrice(amount: number) {
+    return `${displaySymbol}${amount.toLocaleString()}`;
+  }
 
   async function applyCoupon() {
     const res = await fetch('/api/coupon', {
@@ -78,10 +96,10 @@ export default function CheckoutPage() {
     const data = await res.json();
     if (data.valid) {
       setCouponStatus('valid');
-      setDiscountedPrice(data.discountedPrice);
+      setCouponApplied(true);
     } else {
       setCouponStatus('invalid');
-      setDiscountedPrice(null);
+      setCouponApplied(false);
     }
   }
 
@@ -91,7 +109,7 @@ export default function CheckoutPage() {
       const res = await fetch('/api/payment/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ coupon }),
+        body: JSON.stringify({ coupon, isIndia }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
@@ -135,11 +153,6 @@ export default function CheckoutPage() {
     );
   }
 
-  const displayPrice = (usd: number) => {
-    const converted = (usd * currencyInfo.rate).toFixed(0);
-    return `${currencyInfo.symbol}${converted}`;
-  };
-
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-base)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
       <div className="glass-card" style={{ maxWidth: 480, width: '100%', padding: '40px', borderRadius: 20 }}>
@@ -170,26 +183,28 @@ export default function CheckoutPage() {
           background: 'var(--color-primary-glow)', border: '1px solid rgba(217,119,87,0.2)',
           textAlign: 'center',
         }}>
-          {discountedPrice ? (
+          {couponApplied ? (
             <div>
               <span style={{ textDecoration: 'line-through', color: 'var(--text-muted)', fontSize: '1rem' }}>
-                {displayPrice(originalPrice)}
+                {formatPrice(displayOriginal)}
               </span>
               <div style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--color-primary)', lineHeight: 1.1 }}>
-                {displayPrice(discountedPrice)}
+                {formatPrice(displayAmount)}
               </div>
               <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 4 }}>
-                Coupon applied · Save {displayPrice(originalPrice - discountedPrice)}
+                Coupon applied · Save {formatPrice(displayOriginal - displayAmount)}
               </div>
             </div>
           ) : (
-            <div style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--color-primary)', lineHeight: 1.1 }}>
-              {displayPrice(originalPrice)}
-            </div>
-          )}
-          {countryCode !== 'DEFAULT' && (
-            <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: 6 }}>
-              Estimated price · Charged in USD
+            <div>
+              <div style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--color-primary)', lineHeight: 1.1 }}>
+                {formatPrice(displayAmount)}
+              </div>
+              {isIndia && (
+                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: 6 }}>
+                  ≈ $60 USD · One-time payment
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -201,7 +216,7 @@ export default function CheckoutPage() {
               <Tag size={14} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
               <input
                 value={coupon}
-                onChange={e => { setCoupon(e.target.value); setCouponStatus('idle'); }}
+                onChange={e => { setCoupon(e.target.value); setCouponStatus('idle'); setCouponApplied(false); }}
                 placeholder="Coupon code"
                 style={{
                   width: '100%', padding: '10px 12px 10px 34px',
@@ -211,11 +226,7 @@ export default function CheckoutPage() {
                 }}
               />
             </div>
-            <button
-              onClick={applyCoupon}
-              className="btn-ghost"
-              style={{ padding: '10px 16px', fontSize: '0.875rem', flexShrink: 0 }}
-            >
+            <button onClick={applyCoupon} className="btn-ghost" style={{ padding: '10px 16px', fontSize: '0.875rem', flexShrink: 0 }}>
               Apply
             </button>
           </div>
@@ -231,7 +242,7 @@ export default function CheckoutPage() {
           style={{ width: '100%', padding: '14px', fontSize: '1rem', justifyContent: 'center' }}
         >
           {loading ? <Loader2 size={18} style={{ animation: 'spin 1s linear infinite' }} /> : null}
-          Pay {displayPrice(finalPrice)} · Get Instant Access
+          Pay {formatPrice(displayAmount)} · Get Instant Access
         </button>
 
         <div style={{ textAlign: 'center', marginTop: 16 }}>

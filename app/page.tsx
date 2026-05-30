@@ -14,7 +14,6 @@ import { RealTestQuiz } from './components/RealTestQuiz';
 import { AuthModal } from './components/AuthModal';
 import { useQuiz } from './components/QuizProvider';
 import { Brain, BookOpen, Home, ArrowLeft, LogIn, LayoutDashboard, LogOut, User, FileText } from 'lucide-react';
-import Image from 'next/image';
 
 type View = 'home' | 'select' | 'quiz' | 'results' | 'notes' | 'real-test';
 
@@ -112,13 +111,9 @@ function App() {
                   onClick={() => setUserMenuOpen(v => !v)}
                   style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', gap: 8 }}
                 >
-                  {user?.image ? (
-                    <Image src={user.image} alt={user.name ?? ''} width={32} height={32} style={{ borderRadius: '50%', border: '2px solid var(--color-primary)' }} />
-                  ) : (
-                    <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--color-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <User size={16} color="white" />
-                    </div>
-                  )}
+                  <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--color-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <User size={16} color="white" />
+                  </div>
                 </button>
                 {userMenuOpen && (
                   <div style={{

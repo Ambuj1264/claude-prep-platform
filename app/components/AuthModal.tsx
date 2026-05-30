@@ -19,33 +19,35 @@ export function AuthModal({ onClose, reason = 'general' }: Props) {
 
   return (
     <>
-      {/* Backdrop */}
+      {/* Backdrop — #f9f8f6 tinted overlay */}
       <div
         onClick={onClose}
         style={{
           position: 'fixed', inset: 0, zIndex: 1000,
-          background: 'rgba(0,0,0,0.18)',
-          backdropFilter: 'blur(2px)',
-          WebkitBackdropFilter: 'blur(2px)',
+          background: 'rgba(249,248,246,0.75)',
+          backdropFilter: 'blur(3px)',
+          WebkitBackdropFilter: 'blur(3px)',
         }}
       />
 
       {/* Modal card */}
-      <div style={{
-        position: 'fixed', inset: 0, zIndex: 1001,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: '20px',
-        pointerEvents: 'none',
-      }}>
+      <div
+        onClick={onClose}
+        style={{
+          position: 'fixed', inset: 0, zIndex: 1001,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          padding: '20px',
+        }}
+      >
         <div
+          onClick={e => e.stopPropagation()}
           style={{
-            background: 'var(--bg-surface)',
+            background: '#FFFFFF',
             border: '1px solid var(--surface-border)',
             borderRadius: 24,
             padding: '40px 36px',
             width: '100%', maxWidth: 420,
-            boxShadow: '0 24px 64px rgba(0,0,0,0.35)',
-            pointerEvents: 'auto',
+            boxShadow: '0 8px 40px rgba(0,0,0,0.12)',
             position: 'relative',
             animation: 'modalIn 0.2s ease',
           }}
@@ -62,7 +64,7 @@ export function AuthModal({ onClose, reason = 'general' }: Props) {
             onClick={onClose}
             style={{
               position: 'absolute', top: 16, right: 16,
-              background: 'var(--bg-base)', border: '1px solid var(--surface-border)',
+              background: '#f9f8f6', border: '1px solid var(--surface-border)',
               borderRadius: '50%', width: 32, height: 32,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               cursor: 'pointer', color: 'var(--text-muted)',

@@ -28,9 +28,9 @@ export function AuthModal({ onClose, reason = 'general' }: Props) {
         onClick={onClose}
         style={{
           position: 'fixed', inset: 0, zIndex: 9000,
-          background: 'rgba(249,248,246,0.75)',
-          backdropFilter: 'blur(3px)',
-          WebkitBackdropFilter: 'blur(3px)',
+          background: 'rgba(30,30,30,0.55)',
+          backdropFilter: 'blur(6px)',
+          WebkitBackdropFilter: 'blur(6px)',
         }}
       />
 

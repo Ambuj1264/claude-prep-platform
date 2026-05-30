@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { ThemeProvider } from './components/ThemeProvider';
 import { QuizProvider } from './components/QuizProvider';
@@ -11,6 +11,7 @@ import { QuizCard } from './components/QuizCard';
 import { ResultsScreen } from './components/ResultsScreen';
 import { PremiumNotes } from './components/PremiumNotes';
 import { RealTestQuiz } from './components/RealTestQuiz';
+import { AuthModal } from './components/AuthModal';
 import { useQuiz } from './components/QuizProvider';
 import { Brain, BookOpen, Home, ArrowLeft, LogIn, LayoutDashboard, LogOut, User, FileText } from 'lucide-react';
 import Image from 'next/image';
@@ -23,6 +24,7 @@ function App() {
   const { data: authSession, status } = useSession();
   const router = useRouter();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   function goHome() { resetQuiz(); setView('home'); }
 
@@ -149,7 +151,7 @@ function App() {
             ) : (
               <button
                 className="btn-ghost"
-                onClick={() => signIn('google')}
+                onClick={() => setShowAuthModal(true)}
                 style={{ fontSize: '0.8125rem' }}
                 id="btn-login"
               >
@@ -230,6 +232,11 @@ function App() {
           style={{ position: 'fixed', inset: 0, zIndex: 90 }}
           onClick={() => setUserMenuOpen(false)}
         />
+      )}
+
+      {/* Auth modal */}
+      {showAuthModal && (
+        <AuthModal reason="general" onClose={() => setShowAuthModal(false)} />
       )}
     </div>
   );

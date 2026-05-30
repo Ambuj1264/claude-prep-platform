@@ -3,9 +3,10 @@ import { useState, useEffect, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { ScreenshotProtect } from './ScreenshotProtect';
+import { AuthModal } from './AuthModal';
 import {
   CheckCircle, XCircle, ChevronRight, ChevronLeft,
-  RotateCcw, Trophy, Loader2, Lock, ArrowRight,
+  RotateCcw, Trophy, Loader2, ArrowRight,
   BookOpen, Target, Clock,
 } from 'lucide-react';
 import type { RealQuestion } from '@/app/lib/data/realQuestions';
@@ -116,19 +117,13 @@ export function RealTestQuiz() {
 
   if (accessState === 'unauth') {
     return (
-      <GateCard
-        icon={<Lock size={32} color="var(--color-primary)" />}
-        title="Sign in to Access"
-        body="Real exam questions are available for registered users. Sign in with Google to continue."
-        action={{ label: 'Sign in with Google', onClick: () => router.push('/api/user/auth/signin') }}
-      />
+      <AuthModal reason="realtest" onClose={() => router.push('/')} />
     );
   }
 
   if (accessState === 'nopremium') {
     return (
       <GateCard
-        icon={<Lock size={32} color="var(--color-primary)" />}
         title="Premium Access Required"
         body="These are real exam questions available exclusively to premium members. Unlock once, access forever."
         action={{ label: 'Get Premium Access — $60', onClick: () => router.push('/checkout') }}
@@ -421,9 +416,8 @@ function QuizQuestion({
 }
 
 function GateCard({
-  icon, title, body, action, secondary,
+  title, body, action, secondary,
 }: {
-  icon: React.ReactNode;
   title: string;
   body: string;
   action: { label: string; onClick: () => void };
@@ -431,7 +425,14 @@ function GateCard({
 }) {
   return (
     <div className="glass-card" style={{ padding: '48px 40px', textAlign: 'center', maxWidth: 520, margin: '40px auto' }}>
-      <div style={{ marginBottom: 20 }}>{icon}</div>
+      <div style={{
+        width: 56, height: 56, borderRadius: 14, margin: '0 auto 20px',
+        background: 'var(--color-primary)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        boxShadow: '0 8px 24px rgba(217,119,87,0.35)',
+      }}>
+        <ArrowRight size={24} color="white" />
+      </div>
       <h2 style={{ fontSize: '1.375rem', fontWeight: 800, marginBottom: 12 }}>{title}</h2>
       <p style={{ color: 'var(--text-secondary)', fontSize: '0.9375rem', lineHeight: 1.7, marginBottom: 28 }}>{body}</p>
       <button className="btn-primary" onClick={action.onClick} style={{ fontSize: '0.9375rem', padding: '12px 24px', marginBottom: secondary ? 10 : 0 }}>

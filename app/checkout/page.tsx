@@ -60,14 +60,6 @@ export default function CheckoutPage() {
     return () => { document.body.removeChild(script); };
   }, []);
 
-  useEffect(() => {
-    // Detect country from browser locale as a best effort
-    const locale = navigator.language || 'en-US';
-    const region = new Intl.Locale(locale).region ?? 'DEFAULT';
-    const info = getCurrencyInfo(region === 'GB' ? 'GB' : region === 'IN' ? 'IN' : 'DEFAULT');
-    setCurrencyInfo(info);
-    setCountryCode(region);
-  }, []);
 
   useEffect(() => {
     if (status === 'unauthenticated') signIn('google');

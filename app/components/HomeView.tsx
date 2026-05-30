@@ -1,13 +1,14 @@
 'use client';
 import { domains, allQuestions } from '../lib/data';
-import { BookOpen, Layers, Brain, ChevronRight, Zap } from 'lucide-react';
+import { BookOpen, Layers, Brain, Zap, FileText } from 'lucide-react';
 
 interface Props {
   onStartQuiz: () => void;
   onOpenNotes: () => void;
+  onRealTestQuestions: () => void;
 }
 
-export function HomeView({ onStartQuiz, onOpenNotes }: Props) {
+export function HomeView({ onStartQuiz, onOpenNotes, onRealTestQuestions }: Props) {
   const totalQ = allQuestions.length;
 
   return (
@@ -40,6 +41,23 @@ export function HomeView({ onStartQuiz, onOpenNotes }: Props) {
           </button>
           <button className="btn-ghost" onClick={onOpenNotes} id="btn-open-notes" style={{ padding: '12px 24px', fontSize: '1rem' }}>
             <BookOpen size={18} /> Premium Notes
+          </button>
+          <button
+            onClick={onRealTestQuestions}
+            id="btn-real-test"
+            style={{
+              padding: '12px 24px', fontSize: '1rem',
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              borderRadius: 9999, fontWeight: 700, cursor: 'pointer',
+              background: 'linear-gradient(135deg, #d97757, #c2643d)',
+              color: 'white', border: 'none',
+              boxShadow: '0 4px 16px rgba(217,119,87,0.4)',
+              transition: 'transform 0.15s, box-shadow 0.15s',
+            }}
+            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-1px)'; (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 6px 20px rgba(217,119,87,0.5)'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = ''; (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 4px 16px rgba(217,119,87,0.4)'; }}
+          >
+            <FileText size={18} /> Real Test Questions
           </button>
         </div>
       </div>

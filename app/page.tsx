@@ -216,8 +216,11 @@ function App() {
         padding: '20px 0', textAlign: 'center',
         color: 'var(--text-muted)', fontSize: '0.8125rem',
       }}>
-        <div className="page-container">
-          Claude Architect Foundations · Official Exam Prep
+        <div className="page-container" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '8px 20px' }}>
+          <span>© 2025 Claude Architect Foundations · Official Exam Prep</span>
+          <a href="/privacy" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Privacy Policy</a>
+          <a href="/terms" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Terms & Conditions</a>
+          <a href="/contact" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Contact Us</a>
         </div>
       </footer>
 

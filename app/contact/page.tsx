@@ -43,10 +43,10 @@ export default function ContactPage() {
                 For account access issues, payment queries, or general support, email us directly.
               </p>
               <a
-                href="mailto:hs475052@gmail.com"
+                href="mailto:placedai@outlook.com"
                 style={{ color: 'var(--color-primary)', fontWeight: 600, fontSize: '0.9rem', textDecoration: 'none' }}
               >
-                hs475052@gmail.com
+                placedai@outlook.com
               </a>
             </div>
           </div>

@@ -74,7 +74,7 @@ export default function PrivacyPage() {
         </Section>
 
         <Section title="9. Contact">
-          <p>For any privacy-related questions or data deletion requests, please contact us at <a href="mailto:support@claude-prep-platform.vercel.app" style={{ color: 'var(--color-primary)' }}>support@claude-prep-platform.vercel.app</a> or visit our <Link href="/contact" style={{ color: 'var(--color-primary)' }}>Contact page</Link>.</p>
+          <p>For any privacy-related questions or data deletion requests, please contact us at <a href="mailto:placedai@outlook.com" style={{ color: 'var(--color-primary)' }}>placedai@outlook.com</a> or visit our <Link href="/contact" style={{ color: 'var(--color-primary)' }}>Contact page</Link>.</p>
         </Section>
       </main>
 

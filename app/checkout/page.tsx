@@ -105,7 +105,7 @@ export default function CheckoutPage() {
       if (!res.ok) throw new Error(data.error);
 
       const rzp = new window.Razorpay({
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
+        key: data.key,
         amount: data.amount * 100,
         currency: data.currency,
         name: 'Claude Architect Prep',

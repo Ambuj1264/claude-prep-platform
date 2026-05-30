@@ -54,5 +54,6 @@ export async function POST(req: NextRequest) {
     amount: amountUSD,
     currency: 'USD',
     couponApplied: isValidCoupon,
+    key: process.env.RAZORPAY_KEY_ID!,
   });
 }

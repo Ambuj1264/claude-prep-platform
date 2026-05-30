@@ -1,40 +1,43 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { signIn } from 'next-auth/react';
 import { Brain, X, Shield, Star, FileText, Loader2 } from 'lucide-react';
 
 interface Props {
   onClose: () => void;
-  /** If set, shown as the reason why login is needed */
   reason?: 'realtest' | 'general';
 }
 
 export function AuthModal({ onClose, reason = 'general' }: Props) {
   const [loading, setLoading] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
 
   async function handleGoogleSignIn() {
     setLoading(true);
     await signIn('google', { callbackUrl: window.location.href });
   }
 
-  return (
+  if (!mounted) return null;
+
+  const modal = (
     <>
-      {/* Backdrop — #f9f8f6 tinted overlay */}
       <div
         onClick={onClose}
         style={{
-          position: 'fixed', inset: 0, zIndex: 1000,
+          position: 'fixed', inset: 0, zIndex: 9000,
           background: 'rgba(249,248,246,0.75)',
           backdropFilter: 'blur(3px)',
           WebkitBackdropFilter: 'blur(3px)',
         }}
       />
 
-      {/* Modal card */}
       <div
         onClick={onClose}
         style={{
-          position: 'fixed', inset: 0, zIndex: 1001,
+          position: 'fixed', inset: 0, zIndex: 9001,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           padding: '20px',
         }}
@@ -59,7 +62,6 @@ export function AuthModal({ onClose, reason = 'general' }: Props) {
             }
           `}</style>
 
-          {/* Close */}
           <button
             onClick={onClose}
             style={{
@@ -73,7 +75,6 @@ export function AuthModal({ onClose, reason = 'general' }: Props) {
             <X size={15} />
           </button>
 
-          {/* Logo */}
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 24 }}>
             <div style={{
               width: 56, height: 56, borderRadius: 14,
@@ -94,7 +95,6 @@ export function AuthModal({ onClose, reason = 'general' }: Props) {
               : 'Sign in to track your progress, save results, and access premium content.'}
           </p>
 
-          {/* Feature pills */}
           {reason === 'realtest' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 28 }}>
               {[
@@ -115,7 +115,6 @@ export function AuthModal({ onClose, reason = 'general' }: Props) {
             </div>
           )}
 
-          {/* Google sign-in button */}
           <button
             onClick={handleGoogleSignIn}
             disabled={loading}
@@ -153,6 +152,8 @@ export function AuthModal({ onClose, reason = 'general' }: Props) {
       </div>
     </>
   );
+
+  return createPortal(modal, document.body);
 }
 
 function GoogleIcon() {

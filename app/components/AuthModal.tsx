@@ -103,8 +103,8 @@ export function AuthModal({ onClose, reason = 'general' }: Props) {
                 <div key={text} style={{
                   display: 'flex', alignItems: 'center', gap: 10,
                   padding: '10px 14px', borderRadius: 10,
-                  background: 'var(--color-primary-glow)',
-                  border: '1px solid rgba(217,119,87,0.15)',
+                  background: 'var(--bg-base)',
+                  border: '1px solid var(--surface-border)',
                 }}>
                   <span style={{ color: 'var(--color-primary)', flexShrink: 0 }}>{icon}</span>
                   <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{text}</span>
@@ -121,23 +121,23 @@ export function AuthModal({ onClose, reason = 'general' }: Props) {
               width: '100%', padding: '14px 20px',
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12,
               borderRadius: 12, fontWeight: 700, fontSize: '1rem', cursor: loading ? 'wait' : 'pointer',
-              background: 'white',
-              color: '#1f2937',
-              border: '1.5px solid #e5e7eb',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+              background: 'var(--bg-base)',
+              color: 'var(--text-primary)',
+              border: '1.5px solid var(--surface-border)',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
               transition: 'box-shadow 0.15s, transform 0.15s',
             }}
             onMouseEnter={e => {
-              (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 4px 16px rgba(0,0,0,0.12)';
+              (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 4px 16px rgba(0,0,0,0.1)';
               (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-1px)';
             }}
             onMouseLeave={e => {
-              (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 2px 8px rgba(0,0,0,0.08)';
+              (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 2px 8px rgba(0,0,0,0.06)';
               (e.currentTarget as HTMLButtonElement).style.transform = '';
             }}
           >
             {loading ? (
-              <Loader2 size={20} style={{ animation: 'spin 1s linear infinite', color: '#6b7280' }} />
+              <Loader2 size={20} style={{ animation: 'spin 1s linear infinite', color: 'var(--text-muted)' }} />
             ) : (
               <GoogleIcon />
             )}

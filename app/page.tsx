@@ -53,23 +53,47 @@ function App() {
         <div
           onClick={() => router.push('/checkout')}
           style={{
-            background: 'linear-gradient(90deg, #7c3aed 0%, #d97757 50%, #ff4d4d 100%)',
-            padding: '7px 16px', textAlign: 'center', cursor: 'pointer',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
-            userSelect: 'none',
+            background: '#1a1009',
+            borderBottom: '1px solid rgba(217,119,87,0.25)',
+            padding: '8px 16px', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12,
+            userSelect: 'none', flexWrap: 'wrap',
           }}
         >
-          <span style={{ fontSize: '0.95rem', animation: 'pulse 1.5s ease-in-out infinite' }}>🔥</span>
-          <span style={{ color: 'white', fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.04em' }}>
-            HURRY UP — SALE LIVE NOW
+          {/* Live pulse dot */}
+          <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span style={{
+              width: 7, height: 7, borderRadius: '50%',
+              background: '#d97757', display: 'inline-block',
+              boxShadow: '0 0 0 0 rgba(217,119,87,0.6)',
+              animation: 'salePulse 1.6s ease-in-out infinite',
+            }} />
+            <span style={{ color: '#d97757', fontWeight: 700, fontSize: '0.72rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              Sale Live
+            </span>
           </span>
+
+          <span style={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.75rem' }}>|</span>
+
+          <span style={{ color: 'rgba(255,255,255,0.9)', fontWeight: 600, fontSize: '0.8rem' }}>
+            🔥 Hurry up — limited time offer
+          </span>
+
           <span style={{
-            background: 'white', color: '#d97757',
-            borderRadius: 9999, padding: '2px 9px', fontSize: '0.72rem', fontWeight: 800,
-            letterSpacing: '0.02em', boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+            background: 'linear-gradient(135deg, #d97757, #c2643d)',
+            color: 'white', borderRadius: 6, padding: '3px 10px',
+            fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.06em',
           }}>50% OFF</span>
-          <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.78rem', fontWeight: 500 }}>
-            Use code <strong style={{ color: 'white' }}>CLAUDEEXAM</strong> · Auto-applied at checkout →
+
+          <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.78rem' }}>
+            Code <span style={{ color: '#d97757', fontWeight: 700 }}>CLAUDEEXAM</span> · auto-applied
+          </span>
+
+          <span style={{
+            color: '#d97757', fontSize: '0.78rem', fontWeight: 600,
+            display: 'flex', alignItems: 'center', gap: 4,
+          }}>
+            Get access →
           </span>
         </div>
 

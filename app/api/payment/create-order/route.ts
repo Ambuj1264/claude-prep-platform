@@ -7,7 +7,7 @@ import { Transaction } from '@/app/lib/models/Transaction';
 
 const PRICE_USD = 60;
 const COUPON_CODE = 'CLAUDEEXAM';
-const COUPON_USD = 50;
+const COUPON_USD = 30; // 50% off
 const USD_TO_INR = 84;
 
 const razorpay = new Razorpay({

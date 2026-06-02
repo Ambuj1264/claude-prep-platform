@@ -126,7 +126,7 @@ export function RealTestQuiz() {
       <GateCard
         title="Premium Access Required"
         body="These are real exam questions available exclusively to premium members. Unlock once, access forever."
-        action={{ label: 'Get Premium Access — $60', onClick: () => router.push('/checkout') }}
+        action={{ label: 'Get Premium Access — $30 (50% off today)', onClick: () => router.push('/checkout') }}
         secondary={{ label: 'View Dashboard', onClick: () => router.push('/dashboard') }}
       />
     );

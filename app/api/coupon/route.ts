@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const COUPON_CODE = 'CLAUDEEXAM';
 const ORIGINAL_PRICE = 60;
-const DISCOUNTED_PRICE = 50;
+const DISCOUNTED_PRICE = 30; // 50% off
 
 export async function POST(req: NextRequest) {
   const { code } = await req.json();

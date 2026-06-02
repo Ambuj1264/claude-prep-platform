@@ -13,7 +13,7 @@ import { PremiumNotes } from './components/PremiumNotes';
 import { RealTestQuiz } from './components/RealTestQuiz';
 import { AuthModal } from './components/AuthModal';
 import { useQuiz } from './components/QuizProvider';
-import { Brain, BookOpen, Home, ArrowLeft, LogIn, LayoutDashboard, LogOut, User, FileText } from 'lucide-react';
+import { Brain, BookOpen, Home, ArrowLeft, LogIn, LayoutDashboard, LogOut, User, FileText, Flame } from 'lucide-react';
 
 type View = 'home' | 'select' | 'quiz' | 'results' | 'notes' | 'real-test';
 
@@ -49,6 +49,30 @@ function App() {
         background: 'var(--bg-base)',
         borderBottom: '1px solid var(--surface-border)',
       }}>
+        {/* Sale announcement bar */}
+        <div
+          onClick={() => router.push('/checkout')}
+          style={{
+            background: 'linear-gradient(90deg, #7c3aed 0%, #d97757 50%, #ff4d4d 100%)',
+            padding: '7px 16px', textAlign: 'center', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+            userSelect: 'none',
+          }}
+        >
+          <span style={{ fontSize: '0.95rem', animation: 'pulse 1.5s ease-in-out infinite' }}>🔥</span>
+          <span style={{ color: 'white', fontWeight: 700, fontSize: '0.8rem', letterSpacing: '0.04em' }}>
+            HURRY UP — SALE LIVE NOW
+          </span>
+          <span style={{
+            background: 'white', color: '#d97757',
+            borderRadius: 9999, padding: '2px 9px', fontSize: '0.72rem', fontWeight: 800,
+            letterSpacing: '0.02em', boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+          }}>50% OFF</span>
+          <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.78rem', fontWeight: 500 }}>
+            Use code <strong style={{ color: 'white' }}>CLAUDEEXAM</strong> · Auto-applied at checkout →
+          </span>
+        </div>
+
         <div className="page-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 60 }}>
           {/* Logo */}
           <button
@@ -66,6 +90,13 @@ function App() {
             <span style={{ fontWeight: 800, fontSize: '1.0625rem', color: 'var(--text-primary)' }}>
               Claude Architect
             </span>
+            <span style={{
+              background: 'linear-gradient(135deg, #ff4d4d, #ff8c00)',
+              color: 'white', borderRadius: 9999, padding: '2px 8px',
+              fontSize: '0.65rem', fontWeight: 800, letterSpacing: '0.05em',
+              boxShadow: '0 2px 8px rgba(255,77,77,0.4)',
+              animation: 'pulse 2s ease-in-out infinite',
+            }}>SALE</span>
           </button>
 
           {/* Nav */}

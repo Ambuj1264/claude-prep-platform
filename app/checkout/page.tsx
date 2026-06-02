@@ -29,7 +29,8 @@ interface RazorpayInstance {
 
 // Base price in USD
 const BASE_USD = 60;
-const COUPON_USD = 50;
+const COUPON_USD = 30; // 50% off
+const AUTO_COUPON = 'CLAUDEEXAM';
 // INR conversion rate
 const USD_TO_INR = 84;
 
@@ -51,7 +52,7 @@ export default function CheckoutPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  const [coupon, setCoupon] = useState('');
+  const [coupon, setCoupon] = useState(AUTO_COUPON);
   const [couponStatus, setCouponStatus] = useState<'idle' | 'valid' | 'invalid'>('idle');
   const [couponApplied, setCouponApplied] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -59,6 +60,20 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     setIsIndia(detectIsIndia());
+  }, []);
+
+  // Auto-apply the default coupon on mount
+  useEffect(() => {
+    fetch('/api/coupon', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: AUTO_COUPON }),
+    })
+      .then(r => r.json())
+      .then(data => {
+        if (data.valid) { setCouponStatus('valid'); setCouponApplied(true); }
+      })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -164,6 +179,23 @@ export default function CheckoutPage() {
           <span style={{ fontWeight: 800, fontSize: '1.1rem', color: 'var(--text-primary)' }}>Claude Architect</span>
         </div>
 
+        {/* Sale banner */}
+        <div style={{
+          marginBottom: 20, padding: '10px 16px', borderRadius: 10,
+          background: 'linear-gradient(135deg, #ff4d4d 0%, #ff8c00 100%)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+          boxShadow: '0 4px 16px rgba(255,77,77,0.35)',
+        }}>
+          <span style={{ fontSize: '1.1rem' }}>🔥</span>
+          <span style={{ fontWeight: 800, color: 'white', fontSize: '0.9rem', letterSpacing: '0.03em' }}>
+            LIMITED SALE — 50% OFF APPLIED!
+          </span>
+          <span style={{
+            background: 'rgba(255,255,255,0.25)', color: 'white',
+            borderRadius: 9999, padding: '2px 8px', fontSize: '0.7rem', fontWeight: 700,
+          }}>LIVE</span>
+        </div>
+
         <h1 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: 8 }}>Premium Access</h1>
         <p style={{ color: 'var(--text-secondary)', marginBottom: 28, fontSize: '0.9rem', lineHeight: 1.6 }}>
           Unlock real exam questions, detailed explanations, and full access to all 5 domains.
@@ -192,7 +224,7 @@ export default function CheckoutPage() {
                 {formatPrice(displayAmount)}
               </div>
               <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 4 }}>
-                Coupon applied · Save {formatPrice(displayOriginal - displayAmount)}
+                🎉 50% off applied · You save {formatPrice(displayOriginal - displayAmount)}
               </div>
             </div>
           ) : (

@@ -1,9 +1,14 @@
 import Link from 'next/link';
 import { Brain } from 'lucide-react';
 
-export const metadata = {
-  title: 'Privacy Policy — Claude Architect',
-  description: 'Privacy Policy for Claude Architect Foundations Exam Prep Platform.',
+import type { Metadata } from 'next';
+import { SITE_URL } from '../lib/seo';
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy — Claude Architect Prep',
+  description: 'Read the Claude Architect Prep privacy policy to understand how we collect, use, and protect your personal data.',
+  alternates: { canonical: `${SITE_URL}/privacy` },
+  robots: { index: true, follow: false },
 };
 
 export default function PrivacyPage() {

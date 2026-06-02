@@ -1,9 +1,18 @@
 import Link from 'next/link';
 import { Brain, Mail, Clock, MessageSquare } from 'lucide-react';
 
-export const metadata = {
-  title: 'Contact Us — Claude Architect',
-  description: 'Get in touch with the Claude Architect team for support or queries.',
+import type { Metadata } from 'next';
+import { SITE_URL } from '../lib/seo';
+
+export const metadata: Metadata = {
+  title: 'Contact Us — Claude Architect Prep',
+  description: 'Get help with your Claude Architect Prep account, payments, or exam questions. We respond within 24–48 hours.',
+  alternates: { canonical: `${SITE_URL}/contact` },
+  openGraph: {
+    title: 'Contact Us — Claude Architect Prep',
+    description: 'Reach the Claude Architect Prep support team for account help, billing questions, or general inquiries.',
+    url: `${SITE_URL}/contact`,
+  },
 };
 
 export default function ContactPage() {

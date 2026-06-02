@@ -1,9 +1,14 @@
 import Link from 'next/link';
 import { Brain } from 'lucide-react';
 
-export const metadata = {
-  title: 'Terms & Conditions — Claude Architect',
-  description: 'Terms and Conditions for Claude Architect Foundations Exam Prep Platform.',
+import type { Metadata } from 'next';
+import { SITE_URL } from '../lib/seo';
+
+export const metadata: Metadata = {
+  title: 'Terms & Conditions — Claude Architect Prep',
+  description: 'Read the Terms and Conditions governing use of Claude Architect Prep, the exam preparation platform for the Claude Certified Architect Foundations certification.',
+  alternates: { canonical: `${SITE_URL}/terms` },
+  robots: { index: true, follow: false },
 };
 
 export default function TermsPage() {

@@ -1,6 +1,7 @@
 'use client';
 import { domains, allQuestions } from '../lib/data';
 import { BookOpen, Layers, Brain, Zap, FileText, Lock, Star } from 'lucide-react';
+import { FaqSection } from './FaqSection';
 
 interface Props {
   onStartQuiz: () => void;
@@ -158,6 +159,35 @@ export function HomeView({ onStartQuiz, onOpenNotes, onRealTestQuestions }: Prop
           ))}
         </div>
       </div>
+      <FaqSection />
+
+      {/* GEO: About section — entity-rich content for AI search engines */}
+      <section aria-labelledby="about-heading" style={{ marginTop: 48, marginBottom: 32 }}>
+        <h2 id="about-heading" style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: 12, color: 'var(--text-primary)' }}>
+          About the Claude Certified Architect Foundations Exam
+        </h2>
+        <div style={{ display: 'grid', gap: 16, gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+          {[
+            {
+              title: 'What is the Certification?',
+              body: 'The Claude Certified Architect (Foundations) is Anthropic\'s official credential for professionals who design and deploy Claude AI systems. It validates expertise in model selection, MCP integrations, agentic patterns, and safe AI deployment.',
+            },
+            {
+              title: 'Who Should Take This Exam?',
+              body: 'Software engineers, AI architects, product managers, and technical leads building applications with Claude AI. It\'s ideal for anyone integrating Claude into production systems or seeking official Anthropic certification.',
+            },
+            {
+              title: 'How to Prepare Effectively',
+              body: 'Focus on all 5 domains, especially MCP and agentic patterns which have the highest question density. Practice scenario-based questions rather than memorizing docs. Aim for consistent 75%+ on practice tests before sitting the exam.',
+            },
+          ].map(({ title, body }) => (
+            <div key={title} className="glass-card" style={{ padding: '20px 24px' }}>
+              <h3 style={{ fontWeight: 700, fontSize: '0.9375rem', marginBottom: 8, color: 'var(--text-primary)' }}>{title}</h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', lineHeight: 1.7 }}>{body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

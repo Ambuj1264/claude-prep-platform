@@ -1,306 +1,229 @@
-'use client';
-import { useState } from 'react';
-import { useSession, signOut } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { ThemeProvider } from './components/ThemeProvider';
-import { QuizProvider } from './components/QuizProvider';
-import { ThemeToggle } from './components/ThemeToggle';
-import { HomeView } from './components/HomeView';
-import { DomainSelector } from './components/DomainSelector';
-import { QuizCard } from './components/QuizCard';
-import { ResultsScreen } from './components/ResultsScreen';
-import { PremiumNotes } from './components/PremiumNotes';
-import { RealTestQuiz } from './components/RealTestQuiz';
-import { AuthModal } from './components/AuthModal';
-import { useQuiz } from './components/QuizProvider';
-import { Brain, BookOpen, Home, ArrowLeft, LogIn, LayoutDashboard, LogOut, User, FileText, Flame } from 'lucide-react';
+import type { Metadata } from 'next';
+import AppClient from './components/AppClient';
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, OG_IMAGE } from './lib/seo';
 
-type View = 'home' | 'select' | 'quiz' | 'results' | 'notes' | 'real-test';
+export const metadata: Metadata = {
+  title: 'Claude Architect Prep — #1 Exam Study Platform for Claude Certified Architect Foundations',
+  description:
+    'Pass the Claude Certified Architect (Foundations) exam with confidence. 150+ scenario-based questions, detailed explanations across all 5 domains, premium study notes, and real exam simulations. 50% off today.',
+  keywords: [
+    'Claude Certified Architect exam prep',
+    'Claude Foundations certification',
+    'Anthropic certification study guide',
+    'Claude AI exam questions',
+    'Claude Certified Architect practice test',
+    'MCP certification exam',
+    'agentic AI certification',
+    'Claude Code certification',
+    'Anthropic AI exam',
+    'Claude architect foundations study',
+  ],
+  authors: [{ name: 'Claude Architect Prep' }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  metadataBase: new URL(SITE_URL),
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    type: 'website',
+    url: SITE_URL,
+    title: 'Claude Architect Prep — Pass the Foundations Exam with Confidence',
+    description:
+      '150+ real exam questions, all 5 domains, detailed explanations. The only dedicated prep platform for the Claude Certified Architect (Foundations) certification.',
+    siteName: SITE_NAME,
+    images: [
+      {
+        url: OG_IMAGE,
+        width: 1200,
+        height: 630,
+        alt: 'Claude Architect Prep — Exam Study Platform',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Claude Architect Prep — #1 Foundations Exam Study Platform',
+    description:
+      'Master the Claude Certified Architect (Foundations) exam. 150+ questions, 5 domains, detailed explanations. 50% off today.',
+    images: [OG_IMAGE],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+};
 
-function App() {
-  const [view, setView] = useState<View>('home');
-  const { session: quizSession, resetQuiz } = useQuiz();
-  const { data: authSession, status } = useSession();
-  const router = useRouter();
-  const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const [showAuthModal, setShowAuthModal] = useState(false);
-
-  function goHome() { resetQuiz(); setView('home'); }
-
-  function handleRealTestQuestions() {
-    setView('real-test');
-  }
-
-  type SessionUser = { name?: string | null; email?: string | null; image?: string | null; hasPremiumAccess?: boolean };
-  const user: SessionUser | undefined = authSession?.user as SessionUser | undefined;
-
-  return (
-    <div style={{ minHeight: '100vh', position: 'relative' }}>
-      {/* Background blobs */}
-      <div className="bg-blobs">
-        <div className="bg-blob bg-blob-1" />
-        <div className="bg-blob bg-blob-2" />
-        <div className="bg-blob bg-blob-3" />
-      </div>
-
-      {/* Header */}
-      <header style={{
-        position: 'sticky', top: 0, zIndex: 50,
-        background: 'var(--bg-base)',
-        borderBottom: '1px solid var(--surface-border)',
-      }}>
-        {/* Sale announcement bar */}
-        <div
-          onClick={() => router.push('/checkout')}
-          style={{
-            background: '#1a1009',
-            borderBottom: '1px solid rgba(217,119,87,0.25)',
-            padding: '8px 16px', cursor: 'pointer',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12,
-            userSelect: 'none', flexWrap: 'wrap',
-          }}
-        >
-          {/* Live pulse dot */}
-          <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span style={{
-              width: 7, height: 7, borderRadius: '50%',
-              background: '#d97757', display: 'inline-block',
-              boxShadow: '0 0 0 0 rgba(217,119,87,0.6)',
-              animation: 'salePulse 1.6s ease-in-out infinite',
-            }} />
-            <span style={{ color: '#d97757', fontWeight: 700, fontSize: '0.72rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-              Sale Live
-            </span>
-          </span>
-
-          <span style={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.75rem' }}>|</span>
-
-          <span style={{ color: 'rgba(255,255,255,0.9)', fontWeight: 600, fontSize: '0.8rem' }}>
-            🔥 Hurry up — limited time offer
-          </span>
-
-          <span style={{
-            background: 'linear-gradient(135deg, #d97757, #c2643d)',
-            color: 'white', borderRadius: 6, padding: '3px 10px',
-            fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.06em',
-          }}>50% OFF</span>
-
-          <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.78rem' }}>
-            Code <span style={{ color: '#d97757', fontWeight: 700 }}>CLAUDEEXAM</span> · auto-applied
-          </span>
-
-          <span style={{
-            color: '#d97757', fontSize: '0.78rem', fontWeight: 600,
-            display: 'flex', alignItems: 'center', gap: 4,
-          }}>
-            Get access →
-          </span>
-        </div>
-
-        <div className="page-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 60 }}>
-          {/* Logo */}
-          <button
-            onClick={goHome}
-            style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
-            id="logo-btn"
-          >
-            <div style={{
-              width: 32, height: 32, borderRadius: 8,
-              background: 'var(--color-primary)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-            }}>
-              <Brain size={17} color="white" />
-            </div>
-            <span style={{ fontWeight: 800, fontSize: '1.0625rem', color: 'var(--text-primary)' }}>
-              Claude Architect
-            </span>
-            <span style={{
-              background: 'linear-gradient(135deg, #ff4d4d, #ff8c00)',
-              color: 'white', borderRadius: 9999, padding: '2px 8px',
-              fontSize: '0.65rem', fontWeight: 800, letterSpacing: '0.05em',
-              boxShadow: '0 2px 8px rgba(255,77,77,0.4)',
-              animation: 'pulse 2s ease-in-out infinite',
-            }}>SALE</span>
-          </button>
-
-          {/* Nav */}
-          <nav style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            {view !== 'home' && (
-              <button className="btn-ghost" onClick={goHome} style={{ fontSize: '0.8125rem' }}>
-                <Home size={14} /> Home
-              </button>
-            )}
-            <button
-              className={`btn-ghost ${view === 'notes' ? 'active' : ''}`}
-              onClick={() => setView('notes')}
-              style={{ fontSize: '0.8125rem' }}
-              id="nav-notes"
-            >
-              <BookOpen size={14} /> Notes
-            </button>
-            <button
-              className={`btn-ghost ${view === 'real-test' ? 'active' : ''}`}
-              onClick={() => setView('real-test')}
-              style={{ fontSize: '0.8125rem' }}
-              id="nav-real-test"
-            >
-              <FileText size={14} /> Real Test
-            </button>
-            <button
-              className="btn-primary"
-              onClick={() => setView('select')}
-              style={{ fontSize: '0.8125rem', padding: '7px 14px' }}
-              id="nav-practice"
-            >
-              <Brain size={14} /> Practice
-            </button>
-
-            <ThemeToggle />
-
-            {/* Auth buttons */}
-            {status === 'loading' ? (
-              <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--bg-surface)', animation: 'pulse 1.5s ease-in-out infinite' }} />
-            ) : authSession ? (
-              <div style={{ position: 'relative' }}>
-                <button
-                  onClick={() => setUserMenuOpen(v => !v)}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', gap: 8 }}
-                >
-                  <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--color-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <User size={16} color="white" />
-                  </div>
-                </button>
-                {userMenuOpen && (
-                  <div style={{
-                    position: 'absolute', right: 0, top: '100%', marginTop: 8,
-                    background: 'var(--bg-surface)', border: '1px solid var(--surface-border)',
-                    borderRadius: 10, padding: 8, minWidth: 180, zIndex: 100,
-                    boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
-                  }}>
-                    <div style={{ padding: '8px 12px', borderBottom: '1px solid var(--surface-border)', marginBottom: 4 }}>
-                      <div style={{ fontWeight: 600, fontSize: '0.875rem', color: 'var(--text-primary)' }}>{user?.name}</div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{user?.email}</div>
-                    </div>
-                    <button
-                      className="btn-ghost"
-                      onClick={() => { setUserMenuOpen(false); window.location.href = '/dashboard'; }}
-                      style={{ width: '100%', justifyContent: 'flex-start', fontSize: '0.8125rem', borderRadius: 6 }}
-                    >
-                      <LayoutDashboard size={14} /> Dashboard
-                    </button>
-                    <button
-                      className="btn-ghost"
-                      onClick={() => { setUserMenuOpen(false); signOut({ callbackUrl: window.location.origin + '/' }); }}
-                      style={{ width: '100%', justifyContent: 'flex-start', fontSize: '0.8125rem', borderRadius: 6 }}
-                    >
-                      <LogOut size={14} /> Sign out
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <button
-                className="btn-ghost"
-                onClick={() => setShowAuthModal(true)}
-                style={{ fontSize: '0.8125rem' }}
-                id="btn-login"
-              >
-                <LogIn size={14} /> Login
-              </button>
-            )}
-          </nav>
-        </div>
-      </header>
-
-      {/* Main */}
-      <main className="page-container" style={{ position: 'relative', zIndex: 1, paddingTop: 32, paddingBottom: 64 }}>
-        {view === 'home' && (
-          <HomeView
-            onStartQuiz={() => setView('select')}
-            onOpenNotes={() => setView('notes')}
-            onRealTestQuestions={handleRealTestQuestions}
-          />
-        )}
-
-        {view === 'select' && (
-          <div>
-            <button className="btn-ghost" onClick={goHome} style={{ marginBottom: 24, fontSize: '0.8125rem' }}>
-              <ArrowLeft size={14} /> Back
-            </button>
-            <DomainSelector onStart={() => setView('quiz')} />
-          </div>
-        )}
-
-        {view === 'quiz' && quizSession && !quizSession.isComplete && (
-          <QuizCard onDone={() => setView('results')} />
-        )}
-
-        {(view === 'results' || (view === 'quiz' && quizSession?.isComplete)) && (
-          <ResultsScreen
-            onHome={goHome}
-            onRetry={() => setView('select')}
-          />
-        )}
-
-        {view === 'notes' && <PremiumNotes />}
-
-        {view === 'real-test' && (
-          <div>
-            <div style={{ marginBottom: 24 }}>
-              <button className="btn-ghost" onClick={goHome} style={{ fontSize: '0.8125rem' }}>
-                <Home size={14} /> Home
-              </button>
-            </div>
-            <div style={{ marginBottom: 20 }}>
-              <h1 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: 6 }}>
-                Real Test Questions
-              </h1>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-                60 exam-style questions · Timed · With answer explanations
-              </p>
-            </div>
-            <RealTestQuiz />
-          </div>
-        )}
-      </main>
-
-      {/* Footer */}
-      <footer style={{
-        position: 'relative', zIndex: 1,
-        borderTop: '1px solid var(--surface-border)',
-        padding: '20px 0', textAlign: 'center',
-        color: 'var(--text-muted)', fontSize: '0.8125rem',
-      }}>
-        <div className="page-container" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '8px 20px' }}>
-          <span>© 2025 Claude Architect Foundations · Official Exam Prep</span>
-          <a href="/privacy" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Privacy Policy</a>
-          <a href="/terms" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Terms & Conditions</a>
-          <a href="/contact" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Contact Us</a>
-        </div>
-      </footer>
-
-      {/* Close user menu on outside click */}
-      {userMenuOpen && (
-        <div
-          style={{ position: 'fixed', inset: 0, zIndex: 40 }}
-          onClick={() => setUserMenuOpen(false)}
-        />
-      )}
-
-      {/* Auth modal */}
-      {showAuthModal && (
-        <AuthModal reason="general" onClose={() => setShowAuthModal(false)} />
-      )}
-    </div>
-  );
-}
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: SITE_NAME,
+      description: SITE_DESCRIPTION,
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: {
+          '@type': 'EntryPoint',
+          urlTemplate: `${SITE_URL}/?q={search_term_string}`,
+        },
+        'query-input': 'required name=search_term_string',
+      },
+    },
+    {
+      '@type': 'Organization',
+      '@id': `${SITE_URL}/#organization`,
+      name: SITE_NAME,
+      url: SITE_URL,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${SITE_URL}/logo.png`,
+        width: 512,
+        height: 512,
+      },
+      contactPoint: {
+        '@type': 'ContactPoint',
+        email: 'placedai@outlook.com',
+        contactType: 'customer support',
+      },
+    },
+    {
+      '@type': 'Course',
+      '@id': `${SITE_URL}/#course`,
+      name: 'Claude Certified Architect (Foundations) Exam Prep',
+      description:
+        'Comprehensive exam preparation course for the Anthropic Claude Certified Architect Foundations certification. Covers all 5 exam domains with 150+ scenario-based questions, detailed explanations, and real exam simulations.',
+      provider: {
+        '@type': 'Organization',
+        name: SITE_NAME,
+        url: SITE_URL,
+      },
+      url: SITE_URL,
+      courseMode: 'online',
+      educationalLevel: 'Professional',
+      teaches: [
+        'Claude AI fundamentals and architecture',
+        'Model Context Protocol (MCP)',
+        'Agentic AI design patterns',
+        'Claude Code and developer tools',
+        'Responsible AI and safety principles',
+        'Anthropic certification exam strategies',
+      ],
+      hasCourseInstance: {
+        '@type': 'CourseInstance',
+        courseMode: 'online',
+        courseWorkload: 'PT10H',
+      },
+      offers: {
+        '@type': 'Offer',
+        url: `${SITE_URL}/checkout`,
+        price: '30',
+        priceCurrency: 'USD',
+        priceValidUntil: '2025-12-31',
+        availability: 'https://schema.org/InStock',
+        category: 'Educational',
+      },
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'What is the Claude Certified Architect (Foundations) certification?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'The Claude Certified Architect (Foundations) is Anthropic\'s official certification that validates your knowledge of Claude AI models, the Model Context Protocol (MCP), agentic AI architectures, Claude Code, and responsible AI principles. It is the entry-level certification in Anthropic\'s certification program.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'How many domains does the Claude Foundations exam cover?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'The Claude Certified Architect (Foundations) exam covers 5 domains: (1) Claude AI Models and Capabilities, (2) Model Context Protocol (MCP), (3) Agentic AI Design Patterns, (4) Claude Code and Developer Tools, and (5) Responsible AI and Safety. Each domain has a specific weight in the final exam score.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What is the passing score for the Claude Architect Foundations exam?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'The required passing score for the Claude Certified Architect (Foundations) exam is 70%. The exam consists of scenario-based multiple-choice questions testing practical knowledge across all 5 domains.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What does Claude Architect Prep include?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Claude Architect Prep includes 150+ scenario-based practice questions covering all 5 exam domains, 60 real exam-style test questions with a timed simulation, detailed answer explanations for every question, premium study notes for each domain, and unlimited access with no expiry. Premium access is available for a one-time payment.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What is the Model Context Protocol (MCP) and why is it on the exam?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'The Model Context Protocol (MCP) is an open standard developed by Anthropic that enables Claude AI models to securely connect to external data sources, tools, and services. It is a core part of building agentic AI applications with Claude, which is why it is a dedicated exam domain in the Foundations certification.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'How is Claude Code different from regular Claude AI?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Claude Code is Anthropic\'s specialized CLI tool that brings Claude AI directly into software development workflows. It can read codebases, write and edit files, run terminal commands, manage git operations, and integrate with IDEs like VS Code and JetBrains. It is distinct from the Claude chat interface and is covered as its own domain in the Foundations exam.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Is Claude Architect Prep worth it for the Anthropic certification?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Yes. Claude Architect Prep is the only dedicated study platform for the Claude Certified Architect (Foundations) certification. It provides real exam-style questions with explanations that go beyond documentation reading, helping you understand the patterns and decision frameworks tested in the actual exam.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Can I access Claude Architect Prep on mobile?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Yes. Claude Architect Prep is fully responsive and works on desktop, tablet, and mobile browsers. You can study on any device without installing an app.',
+          },
+        },
+      ],
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: SITE_URL,
+        },
+      ],
+    },
+  ],
+};
 
 export default function Page() {
   return (
-    <ThemeProvider>
-      <QuizProvider>
-        <App />
-      </QuizProvider>
-    </ThemeProvider>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <AppClient />
+    </>
   );
 }

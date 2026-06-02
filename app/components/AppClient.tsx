@@ -104,10 +104,11 @@ function App() {
             </span>
             <span style={{
               background: 'linear-gradient(135deg, #ff4d4d, #ff8c00)',
-              color: 'white', borderRadius: 9999, padding: '2px 8px',
-              fontSize: '0.65rem', fontWeight: 800, letterSpacing: '0.05em',
+              color: 'white', borderRadius: 9999, padding: '3px 7px',
+              fontSize: '0.6rem', fontWeight: 800, letterSpacing: '0.06em',
               boxShadow: '0 2px 8px rgba(255,77,77,0.4)',
               animation: 'pulse 2s ease-in-out infinite',
+              lineHeight: 1, display: 'inline-flex', alignItems: 'center',
             }}>SALE</span>
           </button>
 

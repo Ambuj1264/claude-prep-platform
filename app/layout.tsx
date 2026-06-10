@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { AuthProvider } from './components/AuthProvider';
 import { Analytics } from '@vercel/analytics/next';
-import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, OG_IMAGE, TWITTER_HANDLE } from './lib/seo';
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, OG_IMAGE, TWITTER_HANDLE, GLOBAL_KEYWORDS } from './lib/seo';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -11,16 +11,7 @@ export const metadata: Metadata = {
     template: '%s | Claude Architect Prep',
   },
   description: SITE_DESCRIPTION,
-  keywords: [
-    'Claude Certified Architect',
-    'Anthropic certification',
-    'Claude AI exam prep',
-    'Claude Foundations exam',
-    'MCP certification',
-    'agentic AI certification',
-    'Claude Code exam',
-    'Anthropic exam study',
-  ],
+  keywords: GLOBAL_KEYWORDS,
   authors: [{ name: SITE_NAME }],
   creator: SITE_NAME,
   publisher: SITE_NAME,

@@ -1,23 +1,12 @@
 import type { Metadata } from 'next';
 import AppClient from './components/AppClient';
-import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, OG_IMAGE, TWITTER_HANDLE } from './lib/seo';
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, OG_IMAGE, TWITTER_HANDLE, GLOBAL_KEYWORDS } from './lib/seo';
 
 export const metadata: Metadata = {
   title: 'Claude Architect Prep — #1 Exam Study Platform for Claude Certified Architect Foundations',
   description:
     'Pass the Claude Certified Architect (Foundations) exam with confidence. 150+ scenario-based questions, detailed explanations across all 5 domains, premium study notes, and real exam simulations. 50% off today.',
-  keywords: [
-    'Claude Certified Architect exam prep',
-    'Claude Foundations certification',
-    'Anthropic certification study guide',
-    'Claude AI exam questions',
-    'Claude Certified Architect practice test',
-    'MCP certification exam',
-    'agentic AI certification',
-    'Claude Code certification',
-    'Anthropic AI exam',
-    'Claude architect foundations study',
-  ],
+  keywords: GLOBAL_KEYWORDS,
   authors: [{ name: 'Claude Architect Prep' }],
   creator: SITE_NAME,
   publisher: SITE_NAME,

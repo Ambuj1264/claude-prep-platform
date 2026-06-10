@@ -6,7 +6,8 @@ import { SITE_URL } from '../lib/seo';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy — Claude Architect Prep',
-  description: 'Read the Claude Architect Prep privacy policy to understand how we collect, use, and protect your personal data.',
+  description:
+    'Read the Claude Architect Prep privacy policy. We are an independent educational platform for the Claude Certified Architect (Foundations) exam — not affiliated with Anthropic.',
   alternates: { canonical: `${SITE_URL}/privacy` },
   robots: { index: true, follow: false },
 };
@@ -31,7 +32,21 @@ export default function PrivacyPage() {
 
       <main className="page-container" style={{ paddingTop: 48, maxWidth: 760 }}>
         <h1 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: 8, color: 'var(--text-primary)' }}>Privacy Policy</h1>
-        <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', marginBottom: 40 }}>Last updated: May 2025</p>
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', marginBottom: 40 }}>Last updated: June 2025</p>
+
+        {/* Educational Disclaimer Banner */}
+        <div style={{
+          background: 'rgba(59,130,246,0.07)',
+          border: '1px solid rgba(59,130,246,0.25)',
+          borderRadius: 10,
+          padding: '16px 20px',
+          marginBottom: 36,
+        }}>
+          <p style={{ fontWeight: 700, color: '#2563EB', marginBottom: 6 }}>📚 Educational Platform — Independent &amp; Unofficial</p>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9375rem', lineHeight: 1.75 }}>
+            Claude Architect Prep is an <strong>independent, third-party educational platform</strong> created solely for study and exam-preparation purposes. It is <strong>not affiliated with, endorsed by, sponsored by, or in any way officially connected to Anthropic PBC</strong>, the creator of Claude AI. All content is intended purely for personal educational use and is not offered for any commercial, business, resale, or professional-advisory purpose. &quot;Claude,&quot; &quot;Claude Certified Architect,&quot; and related marks are trademarks of Anthropic PBC.
+          </p>
+        </div>
 
         <Section title="1. Information We Collect">
           <p>When you sign in with Google, we collect your name, email address, and profile image solely for account creation and identification purposes. We do not collect any additional personal data beyond what Google provides during the OAuth flow.</p>
@@ -41,22 +56,26 @@ export default function PrivacyPage() {
         <Section title="2. How We Use Your Information">
           <ul style={{ paddingLeft: '1.5rem', lineHeight: 2 }}>
             <li>To authenticate your account via Google OAuth.</li>
-            <li>To grant or revoke access to premium content based on payment status.</li>
+            <li>To grant or revoke access to premium educational content based on payment status.</li>
             <li>To maintain a record of your transactions for billing and support purposes.</li>
             <li>To improve the platform and fix technical issues.</li>
           </ul>
           <p style={{ marginTop: 12 }}>We do not sell, rent, or share your personal information with any third parties for marketing purposes.</p>
         </Section>
 
-        <Section title="3. Data Storage">
+        <Section title="3. Educational Use Only">
+          <p>All data collected is used exclusively to provide access to educational study materials. This platform is not used for any commercial profiling, targeted advertising, behavioural tracking, or business intelligence purposes. Data is never used outside the scope of delivering the exam-preparation service described on this site.</p>
+        </Section>
+
+        <Section title="4. Data Storage">
           <p>Your account data is stored securely in MongoDB Atlas (hosted on AWS). Payment records are stored in our database after Razorpay confirms a successful transaction. All database connections use TLS encryption in transit.</p>
         </Section>
 
-        <Section title="4. Cookies & Sessions">
+        <Section title="5. Cookies &amp; Sessions">
           <p>We use secure HTTP-only session cookies to keep you logged in. These cookies are managed by NextAuth and do not track you across other websites. No third-party tracking or advertising cookies are used.</p>
         </Section>
 
-        <Section title="5. Third-Party Services">
+        <Section title="6. Third-Party Services">
           <ul style={{ paddingLeft: '1.5rem', lineHeight: 2 }}>
             <li><strong>Google OAuth</strong> — for authentication.</li>
             <li><strong>Razorpay</strong> — for payment processing.</li>
@@ -66,19 +85,19 @@ export default function PrivacyPage() {
           <p style={{ marginTop: 12 }}>Each of these services has its own privacy policy and handles data in accordance with applicable laws.</p>
         </Section>
 
-        <Section title="6. Data Retention">
+        <Section title="7. Data Retention">
           <p>We retain your account information for as long as your account is active. If you wish to delete your account and all associated data, please contact us at the email below and we will process the request within 7 business days.</p>
         </Section>
 
-        <Section title="7. Children's Privacy">
+        <Section title="8. Children&apos;s Privacy">
           <p>This platform is not directed at children under the age of 13. We do not knowingly collect personal information from anyone under 13.</p>
         </Section>
 
-        <Section title="8. Changes to This Policy">
+        <Section title="9. Changes to This Policy">
           <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated date. Continued use of the platform after changes constitutes acceptance of the revised policy.</p>
         </Section>
 
-        <Section title="9. Contact">
+        <Section title="10. Contact">
           <p>For any privacy-related questions or data deletion requests, please contact us at <a href="mailto:placedai@outlook.com" style={{ color: 'var(--color-primary)' }}>placedai@outlook.com</a> or visit our <Link href="/contact" style={{ color: 'var(--color-primary)' }}>Contact page</Link>.</p>
         </Section>
       </main>
@@ -101,9 +120,9 @@ function Footer() {
   return (
     <footer style={{ borderTop: '1px solid var(--surface-border)', padding: '20px 0', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.8125rem' }}>
       <div className="page-container" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '8px 20px' }}>
-        <span>© 2025 Claude Architect</span>
+        <span>© 2025 Claude Architect Prep — Independent Educational Platform</span>
         <Link href="/privacy" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Privacy Policy</Link>
-        <Link href="/terms" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Terms & Conditions</Link>
+        <Link href="/terms" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Terms &amp; Conditions</Link>
         <Link href="/contact" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Contact Us</Link>
       </div>
     </footer>

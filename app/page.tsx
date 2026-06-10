@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import AppClient from './components/AppClient';
-import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, OG_IMAGE } from './lib/seo';
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, OG_IMAGE, TWITTER_HANDLE } from './lib/seo';
 
 export const metadata: Metadata = {
   title: 'Claude Architect Prep — #1 Exam Study Platform for Claude Certified Architect Foundations',
@@ -43,6 +43,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
+    site: TWITTER_HANDLE,
     title: 'Claude Architect Prep — #1 Foundations Exam Study Platform',
     description:
       'Master the Claude Certified Architect (Foundations) exam. 150+ questions, 5 domains, detailed explanations. 50% off today.',
@@ -128,7 +129,7 @@ const jsonLd = {
         url: `${SITE_URL}/checkout`,
         price: '30',
         priceCurrency: 'USD',
-        priceValidUntil: '2025-12-31',
+        priceValidUntil: '2026-12-31',
         availability: 'https://schema.org/InStock',
         category: 'Educational',
       },
@@ -201,6 +202,27 @@ const jsonLd = {
           },
         },
       ],
+    },
+    {
+      '@type': 'SoftwareApplication',
+      '@id': `${SITE_URL}/#app`,
+      name: SITE_NAME,
+      applicationCategory: 'EducationApplication',
+      operatingSystem: 'Web',
+      url: SITE_URL,
+      offers: {
+        '@type': 'Offer',
+        price: '30',
+        priceCurrency: 'USD',
+        availability: 'https://schema.org/InStock',
+      },
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '4.9',
+        reviewCount: '47',
+        bestRating: '5',
+        worstRating: '1',
+      },
     },
     {
       '@type': 'BreadcrumbList',

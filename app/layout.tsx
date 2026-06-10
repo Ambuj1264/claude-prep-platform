@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { AuthProvider } from './components/AuthProvider';
 import { Analytics } from '@vercel/analytics/next';
-import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, OG_IMAGE } from './lib/seo';
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, OG_IMAGE, TWITTER_HANDLE } from './lib/seo';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -53,12 +53,13 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
+    site: TWITTER_HANDLE,
     title: 'Claude Architect Prep — Foundations Exam Study Platform',
     description: SITE_DESCRIPTION,
     images: [OG_IMAGE],
   },
   verification: {
-    google: '',
+    google: 'UMmlhDmdEU-TeuKW5JYRn8pa2pgORMIqmjZ108HNFTg',
   },
   category: 'education',
 };
@@ -67,8 +68,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="canonical" href={SITE_URL} />
         <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <meta name="theme-color" content="#D97757" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>

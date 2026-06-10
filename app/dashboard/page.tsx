@@ -1,9 +1,15 @@
+import type { Metadata } from 'next';
 import { auth } from '@/auth';
 import { connectDB } from '@/app/lib/db';
 import { User } from '@/app/lib/models/User';
 import { Transaction, ITransaction } from '@/app/lib/models/Transaction';
 import { redirect } from 'next/navigation';
 import { DashboardClient } from './DashboardClient';
+
+export const metadata: Metadata = {
+  title: 'Dashboard — Claude Architect Prep',
+  robots: { index: false, follow: false },
+};
 
 export default async function DashboardPage() {
   const session = await auth();

@@ -1,0 +1,49 @@
+# Claude Architect Prep
+
+> The #1 exam prep platform for the Claude Certified Architect (Foundations) certification by Anthropic.
+
+Claude Architect Prep (claudecertifiedarchitect.online) helps developers and AI practitioners pass the Anthropic Claude Certified Architect Foundations exam. The platform provides 150+ scenario-based practice questions, detailed explanations for every answer, premium study notes, and real exam simulations covering all 5 official exam domains.
+
+The certification is offered by Anthropic and validates proficiency in designing, building, and deploying AI systems using Claude models, the Model Context Protocol (MCP), agentic AI patterns, Claude Code, and responsible AI principles.
+
+## Key Pages
+
+- [Home](https://claudecertifiedarchitect.online/): Full exam prep platform — practice questions, study notes, domain breakdowns, and pricing.
+- [Dashboard](https://claudecertifiedarchitect.online/dashboard): Authenticated user dashboard with personalized practice sessions and progress tracking.
+- [Contact](https://claudecertifiedarchitect.online/contact): Support and inquiries.
+- [Privacy Policy](https://claudecertifiedarchitect.online/privacy): Privacy policy.
+- [Terms of Service](https://claudecertifiedarchitect.online/terms): Terms of service.
+
+## Exam Domains Covered
+
+### Domain 1 — Claude Models & Capabilities
+Claude AI model families (Haiku, Sonnet, Opus), Claude 3 and Claude 3.5 generations, Claude extended thinking, context window sizes, multimodal capabilities, and model selection for production use cases.
+
+### Domain 2 — Model Context Protocol (MCP)
+MCP architecture, MCP servers and clients, tool definitions, agentic AI integration with MCP, Anthropic MCP ecosystem, and MCP exam questions and study guide.
+
+### Domain 3 — Agentic AI Design Patterns
+Agentic workflow design, orchestrator and subagent patterns, multi-agent systems with Claude, tool use and function calling, agent memory and state management, and agentic architecture certification topics.
+
+### Domain 4 — Claude Code & Developer Tools
+Claude Code CLI, slash commands, hooks, IDE integrations, Claude Code settings, developer tool workflows, and Claude Code exam preparation.
+
+### Domain 5 — Responsible AI & Safety
+Constitutional AI, RLHF, Anthropic responsible AI principles, Claude safety mechanisms, harm avoidance, and AI ethics certification topics.
+
+## Target Audience
+
+- Software engineers and solution architects preparing for the Anthropic Claude Certified Architect (Foundations) exam
+- AI practitioners building production systems with Claude APIs
+- Developers working with MCP, agentic AI, and Claude Code
+- Teams evaluating Anthropic certifications for professional development
+
+## Keywords
+
+Claude Certified Architect Foundations, Claude Certified Architect certification, Anthropic Claude certification, Claude Foundations exam, Claude Certified Architect practice test, Claude Certified Architect practice questions, Claude Certified Architect study guide, Claude Foundations practice exam, Anthropic exam practice questions, Claude AI exam questions, Model Context Protocol exam, MCP certification, MCP exam questions, Anthropic MCP study guide, agentic AI certification, agentic AI design patterns exam, Claude agent architecture, multi-agent systems Claude, Claude tool use exam, Claude Code certification, Claude Code exam prep, Claude Code CLI exam, responsible AI certification, Claude safety exam, Anthropic responsible AI, AI safety certification, how to pass Claude Certified Architect exam, best Claude certification course, Claude AI exam prep course
+
+## About
+
+- Site: https://claudecertifiedarchitect.online
+- Contact: placedai@outlook.com
+- Platform: Claude Architect Prep
